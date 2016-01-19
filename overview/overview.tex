@@ -1,0 +1,698 @@
+% $Id$
+%\documentclass[handout]{beamer}
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ibycus,swedish,english]{babel}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{subfig}
+\usepackage{multicol}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{booktabs}
+\usepackage[squaren,binary]{SIunits}
+\usepackage{multicol}
+\usepackage{csquotes}
+
+\setbeamertemplate{bibliography item}[text]
+\usepackage[natbib,style=alphabetic,maxbibnames=99]{biblatex}
+\addbibresource{literature.bib}
+
+\mode<presentation>{%
+  \usetheme{Frankfurt}
+  \setbeamercovered{transparent}
+  \usecolortheme{seagull}
+}
+\setbeamertemplate{footline}{\insertframenumber}
+
+\title{%
+  Authorisation and Access Control
+}
+\author{Daniel Bosk\footnote{%
+  This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 
+  Unported license.
+	To view a copy of this license, visit 
+	\url{http://creativecommons.org/licenses/by-sa/3.0/}.
+}}
+\institute[MIUN IKS]{%
+  Department of Information and Communication Systems,\\
+  Mid Sweden University, SE-851\,70 Sundsvall.
+}
+\date{\today}
+
+%\pgfdeclareimage[height=0.65cm]{university-logo}{MU_logotyp_int_CMYK.pdf}
+%\logo{\pgfuseimage{university-logo}}
+
+\AtBeginSection[]{%
+  \begin{frame}<beamer>{Overview}
+    \begin{multicols}{2}
+      \tableofcontents[currentsection]
+    \end{multicols}
+  \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage{}
+\end{frame}
+
+\begin{frame}{Overview}
+  \begin{multicols}{2}
+    \tableofcontents
+  \end{multicols}
+\end{frame}
+
+% Since this a solution template for a generic talk, very little can
+% be said about how it should be structured. However, the talk length
+% of between 15min and 45min and the theme suggest that you stick to
+% the following rules:  
+
+% - Exactly two or three sections (other than the summary).
+% - At *most* three subsections per section.
+% - Talk about 30s to 2min per frame. So there should be between about
+%   15 and 30 frames, all told.
+
+% XXX this lecture needs revision, especially the later part of it.
+
+\section{Introduction}
+
+\subsection{Access Control}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item A policy specifies who is allowed to do what.
+
+    \item Access control enforces operational security policies.
+
+    \item We have an active entity: a \emph{subject} (representing 
+      a \emph{principal}).
+
+    \item The subject tries to access an \emph{object} with some \emph{access 
+      operation}.
+
+    \item To protect this, there is a \emph{reference monitor} granting or 
+      denying this access.
+
+  \end{itemize}
+\end{frame}
+
+\subsection{Authentication and Authorisation}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item Principals make statements.
+
+    \item Let \(s\) be a statement.
+
+    \item Authentication answers \enquote{Who said \(s\)?} by stating 
+      a principal.
+
+    \item Let \(o\) be an object.
+
+    \item Authorisation answers \enquote{Who is trusted to access \(o\)?} by 
+      stating a (list of) principal(s).
+
+    \item The reference monitor requires authentication of principals to being 
+      able to authorise the subject it represents.
+
+    \item By authorisation the reference monitor decides whether to grant or 
+      deny a subjects request for access to an object.
+
+    \item For this decision the reference monitor must use the security policy.
+
+  \end{itemize}
+\end{frame}
+
+
+\section{Access Operations}
+
+\subsection{Access Modes}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item The elementary access modes for operations are to \emph{observe} or 
+      to \emph{alter} a resource.
+
+    \item Different \emph{access operations} requires combinations of access 
+      modes.
+
+    \item An \emph{access right} is a right to perform an access operation.
+
+    \item \emph{Privileges} are sets of access rights.
+  \end{itemize}
+\end{frame}
+
+\subsection{Access Rights in BLP}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item The Bell-LaPadula (BLP) model has four access rights:
+      \begin{itemize}
+        \item Execute
+        \item Read
+        \item Append (blind write)
+        \item Write
+      \end{itemize}
+
+    \item These rights requires the two different modes:
+      \begin{description}
+        \item[Execute] requires none.
+        \item[Append] requires alter.
+        \item[Read] requires observe.
+        \item[Write] requires observe and alter.
+      \end{description}
+  \end{itemize}
+\end{frame}
+
+% XXX can the examples be adjusted towards Web?
+\subsection{Access Rights in UNIX-like Systems}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item In a multi-user OS, processes uses the open(2) system call to request 
+      access.
+
+    \item The OS makes sure no conflicting accesses are granted.
+
+    \item Note that some things can be used without a direct request.
+
+    \item E.g.\ the user doesn't need read permission to execute a program.
+
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item In UNIX-like systems we have three access operations:
+      \begin{itemize}
+        \item Read
+        \item Write
+        \item Execute
+      \end{itemize}
+
+    \item These are applied to both files and directories, but diffrently for 
+      each.
+
+    \item You can read from a file, or list the content of a directory.
+
+    \item You can write contents to a file, or create or rename files in 
+      a directory.
+
+    \item You can execute the file, or you can search the directory.
+
+    \item Operations on subdirectories or files are thus handled by access 
+      operations to the parent directory.
+
+  \end{itemize}
+\end{frame}
+
+% XXX add example on databases
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item Policies for creating and deleting files are expressed by
+      \begin{itemize}
+        \item access control on the directory in UNIX-like systems, but
+        \item specific create and delete right in Windows.
+      \end{itemize}
+
+    \item Policies for defining security settings such as access rights are 
+      handled by
+      \begin{itemize}
+        \item access control on the directory in UNIX-like systems, but
+        \item could be handled by right like grant and revoke.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+
+\section{Access Control Structures}
+
+\subsection{Access Control Matrix}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item We can adapt two different focuses on the policy.
+
+    \item The first being, ``What is a principal allowed to do?''
+
+    \item The second, ``What may be done with an object?''
+
+    \item Which one is suitable depends on the application.
+
+    \item E.g.\ an OS usually takes the second approach as its purpose is to 
+      manage objects.
+
+    \item E.g.\ applications like databases might focus on what different users 
+      are allowed to do.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item The access control structure is used to store an implemented policy.
+
+    \item This structure should help to express the policy.
+
+    \item Access rights for each combination of subject and object should be 
+      possible to define.
+
+    \item The importance of the choice of structure is shown when the system 
+      scales up.
+
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{definition}
+    Let \(S\) be the set of subjects, \(O\) the set of objects, and \(A\) the 
+    set of access operations.
+    Then \[ M = \left( M_{so} \right), \] where \(s\in S\) and \(o\in O\), is 
+    the \emph{access control matrix}.
+    Further, each entry \(M_{so}\subseteq A\) specifies the operations subject 
+    \(s\) may perform on the object \(o\).
+  \end{definition}
+\end{frame}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item The access control matrix is an abstract concept.
+    \item It's not very suitable for implementation.
+  \end{itemize}
+\end{frame}
+
+\subsection{Capabilities}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item Capabilities focuses on the subject.
+    \item Access rights are stored with the subject.
+    \item Capabilities are essentially the rows of the access control matrix.
+    \item Subjects may grant rights to other subjects.
+    \item Maybe even grant right to grant rights.
+
+    \item How do you know who may access what?
+    \item How do you revoka a capability?
+  \end{itemize}
+\end{frame}
+
+\subsection{Access Control Lists}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item Focuses on the objects.
+    \item Access rights are stored with the object.
+    \item ACLs are essentially the columns of the access control matrix.
+
+    \item How do you check access right of a specified subject?
+  \end{itemize}
+\end{frame}
+
+\subsection{Ownership}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item Who sets the policies?
+
+    \item The policy is the governing rules of who may access what.
+
+    \item Who sets or is allowed to change the policy could be assigned to
+      \begin{itemize}
+        \item the owner of a resource.
+          This is called \emph{discretionary} access control.
+
+        \item a system wide policy decreeing who is allowed access or not.
+          This is called \emph{mandatory} access control.
+
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+
+\section{Intermediate Controls}
+
+\subsection{Identities and Groups}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item To more easily manage access control for many subjects and objects we 
+      need another approach than above.
+
+    \item The solution is to introduce intermediate levels of complexity.
+
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item We might be able to use identity based acces control (IBAC).
+    \item IBAC doesn't scale well.
+
+    \item Thus we add groups to handle multiple principals at the same time, 
+      e.g.\ a computer security class.
+
+    \item This makes things easier.
+
+  \end{itemize}
+\end{frame}
+
+\subsection{Role-Based Access Control}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item Another approach is to use roles.
+
+    \item A role is a collection of procedures assigned to users.
+
+    \item At a first look it reminds a lot about groups.
+
+    \item However, this is a more high-level way of handling access control.
+
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item The procedures have more complex semantics than just read or write.
+
+    \item They can only be applied to objects of given data types.
+
+    \item E.g.\ transfering funds in a bank.
+
+    \item RBAC is typically found at the application level.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item We can further have role hierarchies, i.e.\ relationships between 
+      roles.
+
+    \item E.g.\ we can have a teacher and a teaching assistant role, where the 
+      teacher has all rights of the TA\@.
+
+    \item Separation of duties is an important principle in security, i.e.\ 
+      when the same subject isn't allowed to do two related operations.
+
+    \item There can be static and dynamic policies for separation of duties.
+
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{description}
+    \item[Flat RBAC] Users are assigned to roles, permissions are assigned to 
+      roles.
+      Hence users get permissions via roles.
+
+    \item[Hierarchical RBAC]
+      Adds support for role hierarchies.
+
+    \item[Constrained RBAC]
+      Adds separation of duties.
+
+  \end{description}
+\end{frame}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item Introduce more levels:
+      \begin{itemize}
+        \item Users
+        \item Roles
+        \item Procedures
+        \item Data types
+        \item Objects
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\subsection{Protection Rings}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item Multics introduced protection rings.
+
+    \item These are mainly implemented in hardware and used to protect 
+      integrity.
+
+    \item Access control is based on which rings the subject and object are in.
+
+    \item E.g.\ 0 contains kernel, 1 contains OS functionality, 2 contains 
+      utilities, and 3 is for user processes.
+
+  \end{itemize}
+\end{frame}
+
+
+\section{Comparing Security Attributes}
+
+\subsection{Partial Orderings}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item Some resources in e.g.\ the University's Computer Science Department 
+      can be accessed by all students, other only by students in a particular 
+      class etc.
+
+    \item Department creates groups ``All'' and ``DT116G'', ``DT145G'' and 
+      ``DV026G''.
+
+    \item The groups DT116G and All are of course related, DT116G is a subgroup 
+      of All and should access everything All can access too.
+
+    \item However, there is no such relation between DT116G and DT145G.
+
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item We can use these comparisons for security policy decisions.
+
+    \item Is the group of the subject requesting access a subgroup of the group 
+      allowed access?
+
+    \item These relationships have a corresponding mathematical construction 
+      called partial ordering.
+
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{definition}
+    A \emph{partial ordering} \(\leq\) on a set \(L\) is a relation on 
+    \(L\times L\) that is
+    \begin{itemize}
+      \item reflexive, \(\forall a\in L, a\leq a\),
+      \item transitive, \(\forall a,b,c\in L, a\leq b\land b\leq c\implies 
+        a\leq c\),
+      \item antisymmetric, \(\forall a,b\in L, a\leq b\land b\leq a\implies 
+        a=b\).
+    \end{itemize}
+    If \(a\leq b\), we say that \(a\) dominates \(b\).
+  \end{definition}
+\end{frame}
+
+% XXX add formal examples of partial orderings
+
+\subsection{Lattices of Security Levels}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{definition}
+    A \emph{lattice} \((L,\leq)\) is a set \(L\) with a partial ordering 
+    \(\leq\) such that for every two elements \(a,b\in L\) there exists
+    \begin{itemize}
+      \item an least upper bound \(u\in L\colon a\leq u, b\leq u\) and for all 
+        \(v\in L\colon (a\leq v\land b\leq v) \implies u\leq v\).
+
+      \item a greatest lower bound \(l\in L\colon l\leq a, l\leq b\) and for 
+        all \(k\in L\colon (k\leq a\land b\leq b) \implies k\leq l\).
+    \end{itemize}
+  \end{definition}
+\end{frame}
+
+% XXX add formal example of lattices
+
+% XXX add security example of lattices
+%\subsection{Multi-Level Security}
+%
+%\begin{frame}{\insertsubsectionhead}
+%\end{frame}
+
+
+%\section{Authorisation}
+%
+%\subsection{Principle of least privilege}
+%
+%\begin{frame}{\insertsubsectionhead}
+%  \begin{itemize}
+%    \item The main point with the ``principle of least privilege'' is to deny 
+%      access to things you normally don't need.
+%
+%    \item Why should your webserver have read-permission to the system password 
+%      database?
+%
+%    \item It will never attempt to read it anyway, so why bother?
+%
+%    \item Because you never know what might happen to your webserver 
+%      communicating with the outside world -- it can be forced to anything, 
+%      then the operating system must prevent it.
+%
+%  \end{itemize}
+%\end{frame}
+%
+%\begin{frame}{\insertsubsectionhead}
+%  \begin{itemize}
+%    \item Why should we have ``drop table''-permissions for reading the 
+%      password database?
+%
+%    \item A slip-up in any function accessing the database can then allow the 
+%      attacker to do anything.
+%
+%    \item Otherwise, the attacker must find a vulnerabiblity to exploit in the 
+%      only functions with write permissions to that particular table.
+%
+%  \end{itemize}
+%\end{frame}
+%
+%\begin{frame}{\insertsubsectionhead}{Keys to the kingdom again}
+%  \begin{itemize}
+%    \item But what happens when all parts run as the same no-privilege user?
+%
+%    \item Then they have rights to each other, so we're back at it.
+%
+%    \item Separate different applications with different system users.
+%
+%    \item This problem cannot arise inside the database.
+%
+%    \item But if the webserver and database server runs as the same user, the 
+%      webserver can just kill the database server and read the files directly 
+%      from disc instead of using the API.
+%
+%  \end{itemize}
+%\end{frame}
+%
+%\subsection{Access Control Lists (ACL)}
+%
+%\begin{frame}{\insertsubsectionhead}
+%  \begin{itemize}
+%    \item An ACL specifies which users should have which permissions.
+%
+%    \item It usually has a list of permissions; e.g.\ read, write.
+%      Sometimes also append, insert etc.
+%
+%    \item Each user or role is entered with a certain set of permissions.
+%
+%    \item There are ACLs in both operating system (OS), for running processes 
+%      and file systems, but also inside databases.
+%
+%  \end{itemize}
+%\end{frame}
+%
+%\begin{frame}{\insertsubsectionhead}
+%  \begin{itemize}
+%    \item Apply the principle of least privilege.
+%
+%    \item This is usually not the case, most files are readable by everyone 
+%      when created.
+%
+%    \item The same applies to databases, unsecure by default.
+%
+%  \end{itemize}
+%\end{frame}
+%
+%\subsection{Centralised Authorisation Routines}
+%
+%\begin{frame}{\insertsubsectionhead}
+%  \begin{itemize}
+%    \item Use centralised functions in your application to manage 
+%      authorisation, i.e.\ to enforce ACLs.
+%
+%    \item Centralisation in the application means less code, less code means 
+%      less potential for bugs.
+%
+%    \item Don't copy-paste authorisation code to all functions, use one 
+%      centralised function which handles the ACL.
+%
+%  \end{itemize}
+%\end{frame}
+%
+%\begin{frame}{\insertsubsectionhead}
+%  \begin{itemize}
+%    \item The ACLs can be represented as an authorisation matrix.
+%
+%    \item I.e.\ a huge table listing all users, actions and resources along 
+%      with whether the user is allowed.
+%
+%    \item This can be implemented in a database.
+%
+%    \item All parts of the webapplication must conform to this, use the 
+%      centralised functions to enforce it.
+%
+%  \end{itemize}
+%\end{frame}
+%
+%\begin{frame}{\insertsubsectionhead}
+%  \begin{itemize}
+%    \item Make sure to check both actions and resources.
+%
+%    \item Is this user allowed to edit personal settings?
+%      Yes, he is, he's logged in.
+%
+%    \item Whose personal settings did the logged-in user edit?
+%
+%  \end{itemize}
+%\end{frame}
+%
+%\begin{frame}{\insertsubsectionhead}
+%  \begin{itemize}
+%    \item When implementing the authorisation checks, watch out for ``positive 
+%      authorisation''!
+%
+%    \item I.e.\ don't assume things will succeed, always write for default 
+%      deny.
+%
+%    \item If your code is aborted, in any line, it should fail the 
+%      authorisation.
+%
+%  \end{itemize}
+%\end{frame}
+%
+%\subsection{Static Content}
+%
+%\begin{frame}{\insertsubsectionhead}
+%  \begin{itemize}
+%    \item Remember to protect files in the webserver's file system, e.g.\ PDFs 
+%      and images if they are not publicly available.
+%
+%    \item Either set some ACLs for them to disallow fetching them using direct 
+%      URLs.
+%
+%    \item Another possibility is to generate the content on the fly.
+%
+%  \end{itemize}
+%\end{frame}
+%
+%\subsection{Don't trust the user}
+%
+%\begin{frame}{\insertsubsectionhead}
+%  \begin{itemize}
+%    \item Don't trust anything from the client-side.
+%
+%    \item Store all critical data on server-side, all access control related 
+%      things should be on the server -- and check every time!
+%
+%  \end{itemize}
+%\end{frame}
+%
+
+%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Referenser}
+  \small
+  \printbibliography{}
+\end{frame}
+
+\end{document}
