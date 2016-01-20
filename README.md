@@ -28,6 +28,8 @@ The source files are structured as follows:
 
 - `overview` contains slides to give the students a wide understanding of 
   access control, its models and related research.
+- `lvlltrl` contains slides (in Swedish) about multilevel and multilateral 
+  security.
 
 In each directory the files are structured as follows:
 
