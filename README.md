@@ -30,6 +30,7 @@ The source files are structured as follows:
   access control, its models and related research.
 - `lvlltrl` contains slides (in Swedish) about multilevel and multilateral 
   security.
+- `refmon` contains slides about reference monitors.
 
 In each directory the files are structured as follows:
 

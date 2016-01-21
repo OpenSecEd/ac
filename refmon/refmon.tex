@@ -1,0 +1,327 @@
+% $Id$
+%\documentclass[handout]{beamer}
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ibycus,swedish,english]{babel}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{multicol}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{booktabs}
+\usepackage[squaren,binary]{SIunits}
+
+\setbeamertemplate{bibliography item}[text]
+\usepackage[natbib,style=alphabetic,maxbibnames=99]{biblatex}
+\addbibresource{refmon.bib}
+
+\mode<presentation>{%
+  \usetheme{Frankfurt}
+  \setbeamercovered{transparent}
+  \usecolortheme{seagull}
+}
+\setbeamertemplate{footline}{\insertframenumber}
+
+\title{%
+  Reference Monitors
+}
+\author{Daniel Bosk\footnote{%
+  This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 
+  Unported license.
+  To view a copy of this license, visit 
+  \url{http://creativecommons.org/licenses/by-sa/3.0/}.
+}}
+\institute[MIUN IKS]{%
+  Department of Information and Communication Systems,\\
+  Mid Sweden University, SE-851\,70 Sundsvall.
+}
+\date{\today}
+
+%\pgfdeclareimage[height=0.65cm]{university-logo}{MU_logotyp_int_CMYK.pdf}
+%\logo{\pgfuseimage{university-logo}}
+
+\AtBeginSection[]{%
+  \begin{frame}<beamer>{Overview}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+%\AtBeginSubsection[]{%
+%  \begin{frame}<beamer>{Overview}
+%    \tiny
+%    \tableofcontents[currentsubsection,sectionstyle=shaded]
+%  \end{frame}
+%}
+
+% XXX refmon lecture needs review, especially the later part of it
+\begin{document}
+
+\begin{frame}
+  \titlepage{}
+\end{frame}
+
+\begin{frame}{Overview}
+  \tableofcontents
+\end{frame}
+
+%\begin{frame}{Litteratur}
+%  \input{literature.tex}
+%\end{frame}
+
+
+% Since this a solution template for a generic talk, very little can
+% be said about how it should be structured. However, the talk length
+% of between 15min and 45min and the theme suggest that you stick to
+% the following rules:  
+
+% - Exactly two or three sections (other than the summary).
+% - At *most* three subsections per section.
+% - Talk about 30s to 2min per frame. So there should be between about
+%   15 and 30 frames, all told.
+
+
+\section{Introduction}
+
+\subsection{Enforcing Policies}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item We now have authentication and authorisation.
+    \item But how do we enforce these access controls?
+    \item This is where reference monitors come in.
+  \end{itemize}
+\end{frame}
+
+\subsection{Definitions}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{definition}[Trusted Computing Base]
+    The totality of protection mechanisms within a system which is responsible 
+    for enforcing a security policy.
+    A TCB consists of one or more components which together enforces the 
+    policy.
+    The ability of the TCB to enforce a policy depends on proper configuration 
+    of its security mechanisms and those mechanisms themselves.
+  \end{definition}
+\end{frame}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{definition}[Reference Monitor]
+    Is an abstract concept refering to an abstract machine which mediates all 
+    subjects' accesses to objects.
+  \end{definition}
+  \begin{definition}[Security Kernel]
+    Constitutes hardware, firmware, software of a Trusted Computing Base (TCB) 
+    which implement the reference monitor concept.
+    It must mediate all accesses, be protected from modification and be 
+    verifiable as correct.
+  \end{definition}
+\end{frame}
+
+% XXX add figure for schematic of reference monitor
+\begin{frame}{\insertsubsectionhead}{Schematic of Reference Monitor}
+\end{frame}
+
+\subsection{Placing the Reference Monitor}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item The RM could be implemented in hardware using the microprocessor.
+
+    \item It could be implemented in the OS kernel, e.g.\ access control in 
+      UNIX-like systems or Windows.
+
+    \item It could be implemented in the services layer, e.g.\ database systems 
+      or Java Virtual Machine.
+
+    \item Finally, it could be implemented in the application layer, i.e.\ 
+      security checks in the application code.
+
+  \end{itemize}
+\end{frame}
+
+
+% XXX add application layer examples for refmon
+\section{Operating Systems}
+
+\subsection{OS Integrity}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item One of the tasks of the OS is to prevent unauthorised access to 
+      different resources.
+
+    \item What if the attacker could modify the OS\@?
+
+    \item Hence we need protection for the OS, we need to maintain its 
+      integrity.
+
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item Now we have the problem that a user must be able to use the OS\@.
+
+    \item But the user shouldn't be able to misuse the OS\@.
+
+    \item To help us achieve this we have
+      \begin{itemize}
+        \item Modes of Operation, and
+        \item Controlled Invocation (Restricted Privilege).
+      \end{itemize}
+
+    \item These can be applied on any layer, be it OS or application.
+
+  \end{itemize}
+\end{frame}
+
+\subsection{Modes of Operation}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item We must be able to distinguish between what the OS executes for 
+      itself and what it executes on behalf of the user.
+
+    \item A mode bit is used to indicate which mode a system is currently in.
+
+    \item Usually we use only two modes, \emph{user mode} and \emph{kernel 
+      mode}.
+
+    \item This way we can limit the possibility of execution.
+
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item One problem we have now is to allow a user to invoke the privileged 
+      operations in the operating system.
+
+    \item Clearly just flipping the mode bit wouldn't work, that way the user 
+      can do anything.
+
+    \item So, we want to be able to flip the mode bit under certain 
+      circumstances only -- and also flip it back before returning to the user.
+
+    \item This is called \emph{controlled invocation}.
+  \end{itemize}
+\end{frame}
+
+\subsection{Mechanisms at the Core}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item Placing mechanisms at the core will allow us higher level of 
+      assurance.
+
+    \item Security mechanisms can be bypassed from the layer below.
+
+    \item A more complex system gives less assurance.
+
+    \item Mechanisms at the core can decrease overheads which decrease 
+      performance.
+  \end{itemize}
+\end{frame}
+
+
+\section{Computer Architechture}
+
+\subsection{Overview}
+
+\begin{frame}{\insertsubsectionhead}
+\end{frame}
+
+\subsection{CPU}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item Registers, such as
+      \begin{itemize}
+        \item program counter,
+        \item stack pointer,
+        \item status register (state information).
+      \end{itemize}
+
+    \item ALU which executes instructions.
+  \end{itemize}
+\end{frame}
+
+\subsection{Memory}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item RAM
+    \item ROM
+    \item EPROM (erasable, programmable)
+    \item WROM (write once)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item Volatile memory -- fades, not vanishes.
+    \item Non-volatile.
+  \end{itemize}
+\end{frame}
+
+\subsection{Interrupts}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item Uses the interrupt vector to see at what address to start execution, 
+      where the interrupt handler is located.
+
+    \item Can be pointed to some other code?
+
+  \end{itemize}
+\end{frame}
+
+
+\section{Security Mechanisms}
+
+\subsection{Segments and Pages}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item Divide memory into logical units, good for security but more 
+      difficult.
+    \item Divide memory into pages of equal length, efficient but more 
+      difficult for access control.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item Can use the page faults as a covert channel.
+  \end{itemize}
+\end{frame}
+
+\subsection{Relative Addressing}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item Use a base and a limit register to limit the address space.
+  \end{itemize}
+\end{frame}
+
+\subsection{Function Codes}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item The Motorola 68000 supported function codes for all addresses.
+    \item This system included separation of user data, user code, kernel data, 
+      kernel code.
+  \end{itemize}
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Referenser}
+  \small
+  \printbibliography{}
+\end{frame}
+
+\end{document}
