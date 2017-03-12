@@ -3,7 +3,7 @@
 \documentclass{beamer}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[ibycus,swedish,english]{babel}
+\usepackage[ibycus,swedish,british]{babel}
 \usepackage{url}
 \usepackage{graphicx}
 \usepackage{color}
@@ -20,21 +20,15 @@
 \addbibresource{literature.bib}
 
 \mode<presentation>{%
-  \usetheme{Frankfurt}
+  \usetheme{Berlin}
   \setbeamercovered{transparent}
-  \usecolortheme{seagull}
 }
 \setbeamertemplate{footline}{\insertframenumber}
 
 \title{%
   Authorisation and Access Control
 }
-\author{Daniel Bosk\footnote{%
-  This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 
-  Unported license.
-	To view a copy of this license, visit 
-	\url{http://creativecommons.org/licenses/by-sa/3.0/}.
-}}
+\author{Daniel Bosk}
 \institute[MIUN IKS]{%
   Department of Information and Communication Systems,\\
   Mid Sweden University, SE-851\,70 Sundsvall.
@@ -45,11 +39,77 @@
 %\logo{\pgfuseimage{university-logo}}
 
 \AtBeginSection[]{%
-  \begin{frame}<beamer>{Overview}
-    \begin{multicols}{2}
-      \tableofcontents[currentsection]
-    \end{multicols}
+  \begin{frame}<beamer>
+    \tableofcontents[currentsection]
   \end{frame}
+}
+
+\usepackage{xparse}
+
+\ProvideDocumentEnvironment{assumption}{o}{%
+  \IfValueTF{#1}{%
+    \begin{block}{Assumption: #1}
+  }{%
+    \begin{block}{Assumption}
+  }
+}{%
+  \end{block}
+}
+
+\ProvideDocumentEnvironment{Protocol}{o}{%
+  \IfValueTF{#1}{%
+    \begin{block}{Protocol: #1}
+  }{%
+    \begin{block}{Protocol}
+  }
+}{%
+  \end{block}
+}
+
+\ProvideDocumentEnvironment{remark}{o}{%
+  \IfValueTF{#1}{%
+    \begin{alertblock}{Note: #1}
+  }{%
+    \begin{alertblock}{Note}
+  }
+}{%
+  \end{alertblock}
+}
+
+\ProvideDocumentEnvironment{idea}{o}{%
+  \IfValueTF{#1}{%
+    \begin{block}{Idea: #1}
+  }{%
+    \begin{block}{Idea}
+  }
+}{%
+  \end{block}
+}
+
+\ProvideDocumentEnvironment{question}{o}{%
+  \setbeamercolor{block body}{bg=orange!15,fg=black}
+  \setbeamercolor{block title}{bg=orange,fg=white}
+  \setbeamercolor{local structure}{fg=orange}
+  \IfValueTF{#1}{%
+    \begin{block}{Question: #1}
+  }{%
+    \begin{block}{Question}
+  }
+}{%
+  \end{block}
+}
+
+\ProvideDocumentEnvironment{exercise}{o}{%
+  \setbeamercolor{block body}{bg=yellow!10,fg=black}
+  \setbeamercolor{block title}{bg=yellow,fg=black}
+  \setbeamercolor{local structure}{fg=yellow}
+  \IfValueTF{#1}{%
+    \begin{block}{Exercise: #1}
+  }{%
+    \begin{block}{Exercise}
+  }
+}{%
+  \end{block}
 }
 
 \begin{document}
@@ -58,10 +118,8 @@
   \titlepage{}
 \end{frame}
 
-\begin{frame}{Overview}
-  \begin{multicols}{2}
-    \tableofcontents
-  \end{multicols}
+\begin{frame}
+  \tableofcontents
 \end{frame}
 
 % Since this a solution template for a generic talk, very little can
@@ -78,166 +136,197 @@
 
 \section{Introduction}
 
-\subsection{Access Control}
+\subsection{Authentication, authorization and access control}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item A policy specifies who is allowed to do what.
 
     \item Access control enforces operational security policies.
-
-    \item We have an active entity: a \emph{subject} (representing 
-      a \emph{principal}).
-
-    \item The subject tries to access an \emph{object} with some \emph{access 
-      operation}.
-
-    \item To protect this, there is a \emph{reference monitor} granting or 
-      denying this access.
-
   \end{itemize}
 \end{frame}
 
-\subsection{Authentication and Authorisation}
+\begin{frame}
+  \begin{definition}
+    \begin{itemize}
+      \item We have an active entity: a \emph{subject} (representing 
+        a \emph{principal}).
 
-\begin{frame}{\insertsubsectionhead}
-  \begin{itemize}
-    \item Principals make statements.
+      \item The subject tries to access an \emph{object} with some \emph{access 
+          operation}.
 
-    \item Let \(s\) be a statement.
+      \item To protect this, there is a \emph{reference monitor} granting or 
+        denying this access.
+    \end{itemize}
+  \end{definition}
+\end{frame}
 
-    \item Authentication answers \enquote{Who said \(s\)?} by stating 
-      a principal.
+\begin{frame}
+  \begin{definition}[Authentication]
+    \begin{itemize}
+      \item Principals make statements.
 
-    \item Let \(o\) be an object.
+      \item Let \(s\) be a statement.
 
-    \item Authorisation answers \enquote{Who is trusted to access \(o\)?} by 
-      stating a (list of) principal(s).
+      \item Authentication answers \enquote{Who said \(s\)?} by stating 
+        a principal.
+    \end{itemize}
+  \end{definition}
 
-    \item The reference monitor requires authentication of principals to being 
-      able to authorise the subject it represents.
+  \pause{}
 
-    \item By authorisation the reference monitor decides whether to grant or 
-      deny a subjects request for access to an object.
+  \begin{definition}[Authorization]
+    \begin{itemize}
+      \item Let \(o\) be an object.
 
-    \item For this decision the reference monitor must use the security policy.
+      \item Authorization answers \enquote{Who is trusted to access \(o\)?} by 
+        stating a (list of) principal(s).
+    \end{itemize}
+  \end{definition}
+\end{frame}
 
-  \end{itemize}
+\begin{frame}
+  \begin{idea}[Reference monitor]
+    \begin{itemize}
+      \item The reference monitor requires authentication of principals to be 
+        able to authorize the subject it represents.
+
+      \item By authorization the reference monitor decides whether to grant or 
+        deny a subjects request for access to an object.
+
+      \item For this decision the reference monitor must use the security policy.
+    \end{itemize}
+  \end{idea}
 \end{frame}
 
 
-\section{Access Operations}
+\subsection{Access operations}
 
-\subsection{Access Modes}
+\begin{frame}
+  \begin{definition}
+    \begin{itemize}
+      \item The elementary access modes for operations are to \emph{observe} or 
+        to \emph{alter} a resource.
 
-\begin{frame}{\insertsubsectionhead}
-  \begin{itemize}
-    \item The elementary access modes for operations are to \emph{observe} or 
-      to \emph{alter} a resource.
+      \item Different \emph{access operations} requires combinations of access 
+        modes.
+    \end{itemize}
+  \end{definition}
 
-    \item Different \emph{access operations} requires combinations of access 
-      modes.
+  \pause{}
 
-    \item An \emph{access right} is a right to perform an access operation.
+  \begin{definition}
+    \begin{itemize}
+      \item An \emph{access right} is a right to perform an access operation.
 
-    \item \emph{Privileges} are sets of access rights.
-  \end{itemize}
+      \item \emph{Privileges} are sets of access rights.
+    \end{itemize}
+  \end{definition}
 \end{frame}
 
-\subsection{Access Rights in BLP}
+\begin{frame}
+  \begin{example}[BLP]
+    \begin{itemize}
+      \item The Bell-LaPadula (BLP) model has four access rights:
+        \begin{itemize}
+          \item Execute
+          \item Read
+          \item Append (blind write)
+          \item Write
+        \end{itemize}
 
-\begin{frame}{\insertsubsectionhead}
-  \begin{itemize}
-    \item The Bell-LaPadula (BLP) model has four access rights:
-      \begin{itemize}
-        \item Execute
-        \item Read
-        \item Append (blind write)
-        \item Write
-      \end{itemize}
-
-    \item These rights requires the two different modes:
-      \begin{description}
-        \item[Execute] requires none.
-        \item[Append] requires alter.
-        \item[Read] requires observe.
-        \item[Write] requires observe and alter.
-      \end{description}
-  \end{itemize}
+      \item These rights requires the two different modes:
+        \begin{description}
+          \item[Execute] requires none.
+          \item[Append] requires alter.
+          \item[Read] requires observe.
+          \item[Write] requires observe and alter.
+        \end{description}
+    \end{itemize}
+  \end{example}
 \end{frame}
 
 % XXX can the examples be adjusted towards Web?
-\subsection{Access Rights in UNIX-like Systems}
 
-\begin{frame}{\insertsubsectionhead}
-  \begin{itemize}
-    \item In a multi-user OS, processes uses the open(2) system call to request 
-      access.
+\begin{frame}
+  \begin{example}[Reference monitor]
+    \begin{itemize}
+      \item In a multi-user OS, processes uses the open(2) system call to request 
+        access.
 
-    \item The OS makes sure no conflicting accesses are granted.
+      \item The OS makes sure no conflicting accesses are granted.
 
-    \item Note that some things can be used without a direct request.
+      \item Note that some things can be used without a direct request.
 
-    \item E.g.\ the user doesn't need read permission to execute a program.
+      \item E.g.\ the user doesn't need read permission to execute a program.
 
-  \end{itemize}
+    \end{itemize}
+  \end{example}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
-  \begin{itemize}
-    \item In UNIX-like systems we have three access operations:
-      \begin{itemize}
-        \item Read
-        \item Write
-        \item Execute
-      \end{itemize}
+\begin{frame}
+  \begin{example}[UNIX-like systems]
+    \begin{itemize}
+      \item In UNIX-like systems we have three access operations:
+        \begin{itemize}
+          \item Read
+          \item Write
+          \item Execute
+        \end{itemize}
 
-    \item These are applied to both files and directories, but diffrently for 
-      each.
+      \item These are applied to both files and directories, but differently for 
+        each.
 
-    \item You can read from a file, or list the content of a directory.
+      \item You can read from a file, or list the content of a directory.
 
-    \item You can write contents to a file, or create or rename files in 
-      a directory.
+      \item You can write contents to a file, or create or rename files in 
+        a directory.
 
-    \item You can execute the file, or you can search the directory.
+      \item You can execute the file, or you can search the directory.
 
-    \item Operations on subdirectories or files are thus handled by access 
-      operations to the parent directory.
+      \item Operations on subdirectories or files are thus handled by access 
+        operations to the parent directory.
 
-  \end{itemize}
+    \end{itemize}
+  \end{example}
 \end{frame}
 
 % XXX add example on databases
-\begin{frame}{\insertsubsectionhead}
-  \begin{itemize}
-    \item Policies for creating and deleting files are expressed by
-      \begin{itemize}
-        \item access control on the directory in UNIX-like systems, but
-        \item specific create and delete right in Windows.
-      \end{itemize}
+\begin{frame}
+  \begin{example}
+    Policies for creating and deleting files are expressed by
+    \begin{itemize}
+      \item access control on the directory in UNIX-like systems, but
+      \item specific create and delete right in Windows.
+    \end{itemize}
+  \end{example}
 
-    \item Policies for defining security settings such as access rights are 
-      handled by
-      \begin{itemize}
-        \item access control on the directory in UNIX-like systems, but
-        \item could be handled by right like grant and revoke.
-      \end{itemize}
-  \end{itemize}
+  \pause{}
+
+  \begin{example}
+    Policies for defining security settings such as access rights are handled 
+    by
+    \begin{itemize}
+      \item access control on the directory in UNIX-like systems, but
+      \item could be handled by right like grant and revoke.
+    \end{itemize}
+  \end{example}
 \end{frame}
 
 
-\section{Access Control Structures}
+\section{Access control structures}
 
-\subsection{Access Control Matrix}
+\subsection{Access control matrix}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item We can adapt two different focuses on the policy.
 
     \item The first being, ``What is a principal allowed to do?''
 
     \item The second, ``What may be done with an object?''
+
+      \pause{}
 
     \item Which one is suitable depends on the application.
 
@@ -249,7 +338,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item The access control structure is used to store an implemented policy.
 
@@ -264,27 +353,35 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
-  \begin{definition}
-    Let \(S\) be the set of subjects, \(O\) the set of objects, and \(A\) the 
-    set of access operations.
-    Then \[ M = \left( M_{so} \right), \] where \(s\in S\) and \(o\in O\), is 
-    the \emph{access control matrix}.
-    Further, each entry \(M_{so}\subseteq A\) specifies the operations subject 
-    \(s\) may perform on the object \(o\).
+\begin{frame}
+  \begin{definition}[Access control matrix]
+    \begin{itemize}
+      \item \(S\) be the set of subjects,
+      \item \(O\) the set of objects, and
+      \item \(A\) the set of access operations.
+
+        \pause{}
+
+      \item \emph{Access control matrix}: \( M = \left( M_{so} \right)\), where 
+        \(s\in S\) and \(o\in O\).
+      \item Each entry \(M_{so}\subseteq A\) specifies the operations subject 
+        \(s\) may perform on the object \(o\).
+    \end{itemize}
   \end{definition}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
-  \begin{itemize}
-    \item The access control matrix is an abstract concept.
-    \item It's not very suitable for implementation.
-  \end{itemize}
+\begin{frame}
+  \begin{remark}
+    \begin{itemize}
+      \item The access control matrix is an abstract concept.
+      \item It's not very suitable for implementation.
+    \end{itemize}
+  \end{remark}
 \end{frame}
 
-\subsection{Capabilities}
+\subsection{Capabilities and ACLs}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item Capabilities focuses on the subject.
     \item Access rights are stored with the subject.
@@ -297,9 +394,7 @@
   \end{itemize}
 \end{frame}
 
-\subsection{Access Control Lists}
-
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item Focuses on the objects.
     \item Access rights are stored with the object.
@@ -311,7 +406,7 @@
 
 \subsection{Ownership}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item Who sets the policies?
 
@@ -330,11 +425,11 @@
 \end{frame}
 
 
-\section{Intermediate Controls}
+\section{Access control models}
 
-\subsection{Identities and Groups}
+\subsection{Identity-based access control}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item To more easily manage access control for many subjects and objects we 
       need another approach than above.
@@ -344,7 +439,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item We might be able to use identity based acces control (IBAC).
     \item IBAC doesn't scale well.
@@ -357,9 +452,9 @@
   \end{itemize}
 \end{frame}
 
-\subsection{Role-Based Access Control}
+\subsection{Role-based access control}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item Another approach is to use roles.
 
@@ -372,7 +467,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item The procedures have more complex semantics than just read or write.
 
@@ -384,7 +479,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item We can further have role hierarchies, i.e.\ relationships between 
       roles.
@@ -400,7 +495,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{description}
     \item[Flat RBAC] Users are assigned to roles, permissions are assigned to 
       roles.
@@ -411,28 +506,43 @@
 
     \item[Constrained RBAC]
       Adds separation of duties.
-
   \end{description}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
-  \begin{itemize}
-    \item Introduce more levels:
-      \begin{itemize}
-        \item Users
-        \item Roles
-        \item Procedures
-        \item Data types
-        \item Objects
-      \end{itemize}
-  \end{itemize}
+\subsection{Attribute-based access control}
+
+\begin{frame}
+  \begin{definition}
+    \begin{description}
+      \item[Policy enforcement point] Inspects request and generates 
+        authorization request for PDP.
+      \item[Policy decision point, PDP] Evaluates requests against policies.
+        Returns permit or deny.
+      \item[Policy information point] Can be used by PDP to access attribute 
+        databases.
+    \end{description}
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \begin{example}[Attributes]
+    \begin{itemize}
+      \item Subject attributes, e.g.\ age, clearance, department, role, \dots
+      \item Action attributes, e.g.\ read, delete, write, \dots
+      \item Object attributes, e.g.\ type, owner, classification, location, 
+        \dots
+      \item Contextual attributes, e.g.\ time, location, \dots
+    \end{itemize}
+  \end{example}
 \end{frame}
 
 \subsection{Protection Rings}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item Multics introduced protection rings.
+
+    \item Low-level version of the high-level BLP.
 
     \item These are mainly implemented in hardware and used to protect 
       integrity.
@@ -450,7 +560,7 @@
 
 \subsection{Partial Orderings}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item Some resources in e.g.\ the University's Computer Science Department 
       can be accessed by all students, other only by students in a particular 
@@ -467,7 +577,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item We can use these comparisons for security policy decisions.
 
@@ -480,7 +590,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{definition}
     A \emph{partial ordering} \(\leq\) on a set \(L\) is a relation on 
     \(L\times L\) that is
@@ -499,7 +609,7 @@
 
 \subsection{Lattices of Security Levels}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{definition}
     A \emph{lattice} \((L,\leq)\) is a set \(L\) with a partial ordering 
     \(\leq\) such that for every two elements \(a,b\in L\) there exists
@@ -518,7 +628,7 @@
 % XXX add security example of lattices
 %\subsection{Multi-Level Security}
 %
-%\begin{frame}{\insertsubsectionhead}
+%\begin{frame}
 %\end{frame}
 
 
@@ -526,7 +636,7 @@
 %
 %\subsection{Principle of least privilege}
 %
-%\begin{frame}{\insertsubsectionhead}
+%\begin{frame}
 %  \begin{itemize}
 %    \item The main point with the ``principle of least privilege'' is to deny 
 %      access to things you normally don't need.
@@ -543,7 +653,7 @@
 %  \end{itemize}
 %\end{frame}
 %
-%\begin{frame}{\insertsubsectionhead}
+%\begin{frame}
 %  \begin{itemize}
 %    \item Why should we have ``drop table''-permissions for reading the 
 %      password database?
@@ -557,7 +667,7 @@
 %  \end{itemize}
 %\end{frame}
 %
-%\begin{frame}{\insertsubsectionhead}{Keys to the kingdom again}
+%\begin{frame}{Keys to the kingdom again}
 %  \begin{itemize}
 %    \item But what happens when all parts run as the same no-privilege user?
 %
@@ -576,7 +686,7 @@
 %
 %\subsection{Access Control Lists (ACL)}
 %
-%\begin{frame}{\insertsubsectionhead}
+%\begin{frame}
 %  \begin{itemize}
 %    \item An ACL specifies which users should have which permissions.
 %
@@ -591,7 +701,7 @@
 %  \end{itemize}
 %\end{frame}
 %
-%\begin{frame}{\insertsubsectionhead}
+%\begin{frame}
 %  \begin{itemize}
 %    \item Apply the principle of least privilege.
 %
@@ -605,7 +715,7 @@
 %
 %\subsection{Centralised Authorisation Routines}
 %
-%\begin{frame}{\insertsubsectionhead}
+%\begin{frame}
 %  \begin{itemize}
 %    \item Use centralised functions in your application to manage 
 %      authorisation, i.e.\ to enforce ACLs.
@@ -619,7 +729,7 @@
 %  \end{itemize}
 %\end{frame}
 %
-%\begin{frame}{\insertsubsectionhead}
+%\begin{frame}
 %  \begin{itemize}
 %    \item The ACLs can be represented as an authorisation matrix.
 %
@@ -634,7 +744,7 @@
 %  \end{itemize}
 %\end{frame}
 %
-%\begin{frame}{\insertsubsectionhead}
+%\begin{frame}
 %  \begin{itemize}
 %    \item Make sure to check both actions and resources.
 %
@@ -646,7 +756,7 @@
 %  \end{itemize}
 %\end{frame}
 %
-%\begin{frame}{\insertsubsectionhead}
+%\begin{frame}
 %  \begin{itemize}
 %    \item When implementing the authorisation checks, watch out for ``positive 
 %      authorisation''!
@@ -662,7 +772,7 @@
 %
 %\subsection{Static Content}
 %
-%\begin{frame}{\insertsubsectionhead}
+%\begin{frame}
 %  \begin{itemize}
 %    \item Remember to protect files in the webserver's file system, e.g.\ PDFs 
 %      and images if they are not publicly available.
@@ -677,7 +787,7 @@
 %
 %\subsection{Don't trust the user}
 %
-%\begin{frame}{\insertsubsectionhead}
+%\begin{frame}
 %  \begin{itemize}
 %    \item Don't trust anything from the client-side.
 %
@@ -690,7 +800,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Referenser}
+\begin{frame}
   \small
   \printbibliography{}
 \end{frame}
