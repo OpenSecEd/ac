@@ -1,72 +1,17 @@
-% $Id$
-%\documentclass[handout]{beamer}
-\documentclass{beamer}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage[english,swedish]{babel}
-\usepackage{url}
-\usepackage{graphicx}
-\usepackage{natbib}
-\usepackage{color}
-\usepackage{subfig}
-\usepackage{multicol}
-\usepackage{amssymb,amsmath,amsthm}
-\usepackage{booktabs}
-\usepackage[squaren,binary]{SIunits}
-\setcitestyle{numbers,square}
-\bibliographystyle{swealpha}
-
-\mode<presentation>{%
-  \usetheme{Frankfurt}
-  \setbeamercovered{transparent}
-  \usecolortheme{seagull}
-}
-\setbeamertemplate{footline}{\insertframenumber}
-
 \title{%
-  Flernivåsäkerhet och multilateral säkerhet
+  Multilevel and Multilateral Security
 }
-\author{Daniel Bosk\footnote{%
-  Detta verk är tillgängliggjort under licensen Creative Commons 
-  Erkännande-DelaLika 2.5 Sverige (CC BY-SA 2.5 SE).
-	För att se en sammanfattning och kopia av licenstexten besök URL 
-	\url{http://creativecommons.org/licenses/by-sa/2.5/se/}.
-}}
-\institute[MIUN IKS]{%
-  %Department of Information and Communication Systems (ICS),\\
-  %Mid Sweden University, Sundsvall.
-	%
-  Avdelningen för informations- och kommunikationssytem (IKS),\\
-  Mittuniversitetet, Sundsvall.
+\author{Daniel Bosk}
+\institute[MIUN IST]{%
+  Department of Information Systems and Technology\\
+  Mid Sweden University, SE-851\,70 Sundsvall
 }
-\date{\today}
-
-%\pgfdeclareimage[height=0.65cm]{university-logo}{MU_logotyp_int_CMYK.pdf}
-%\logo{\pgfuseimage{university-logo}}
-
-\AtBeginSection[]{%
-  \begin{frame}<beamer>{Översikt}
-    \small
-    \tableofcontents[currentsection]
-  \end{frame}
-}
-\AtBeginSubsection[]{%
-  \begin{frame}<beamer>{Översikt}
-    \small
-    \tableofcontents[currentsubsection,sectionstyle=shaded]
-  \end{frame}
-}
-
-\begin{document}
 
 \begin{frame}
-  \titlepage
+  \maketitle
 \end{frame}
 
-\begin{frame}{Översikt}
-  \tableofcontents
-\end{frame}
-
+\mode*
 
 % Since this a solution template for a generic talk, very little can
 % be said about how it should be structured. However, the talk length
@@ -204,7 +149,7 @@
       säkerhetsnivå kan se.
     \item \emph{Nondeducability} kom 1986.
     \item Förenkling av tidigare: bevisa att låg nivå inte kan härleda med 
-      \unit{100}{\%} säkerhet vad som händer på hög.
+      \SI{100}{\%} säkerhet vad som händer på hög.
     \item Även om det går att se är det oförståeligt.
     \item Ett exempel på tillämpningsområde är ett nätverk med datorer med både 
       hög och låg säkerhetsklassning.
@@ -358,11 +303,8 @@
 \end{frame}
 
 
-%%%%%%%%%%%%%%%%%%%%%%
+%%% REFERENCES %%%
 
-\begin{frame}[allowframebreaks]{Referenser}
-	\small
-  \bibliography{lvlltrl}
+\begin{frame}[allowframebreaks]
+  \printbibliography{}
 \end{frame}
-
-\end{document}

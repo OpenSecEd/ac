@@ -1,10 +1,11 @@
 .PHONY: all
-all: lvlltrl.pdf
+all: slides.pdf
 
-SRC=		lvlltrl.tex abstract.tex lvlltrl.bib
+SRC+=		preamble.tex lvlltrl.bib
+SRC+=		contents.tex
 FIGURES+=	lattice.png
 
-lvlltrl.pdf: ${SRC} ${FIGURES}
+slides.pdf: slides.tex ${SRC} ${FIGURES}
 
 
 INCLUDE_MAKEFILES=../makefiles
