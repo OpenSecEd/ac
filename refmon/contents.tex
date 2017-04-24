@@ -1,73 +1,24 @@
-% $Id$
-%\documentclass[handout]{beamer}
-\documentclass{beamer}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage[ibycus,swedish,english]{babel}
-\usepackage{url}
-\usepackage{graphicx}
-\usepackage{color}
-\usepackage{multicol}
-\usepackage{amssymb,amsmath,amsthm}
-\usepackage{booktabs}
-\usepackage[squaren,binary]{SIunits}
-
-\setbeamertemplate{bibliography item}[text]
-\usepackage[natbib,style=alphabetic,maxbibnames=99]{biblatex}
-\addbibresource{refmon.bib}
-
-\mode<presentation>{%
-  \usetheme{Frankfurt}
-  \setbeamercovered{transparent}
-  \usecolortheme{seagull}
-}
-\setbeamertemplate{footline}{\insertframenumber}
-
 \title{%
   Reference Monitors
 }
-\author{Daniel Bosk\footnote{%
-  This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 
-  Unported license.
-  To view a copy of this license, visit 
-  \url{http://creativecommons.org/licenses/by-sa/3.0/}.
-}}
+\author{Daniel Bosk}
 \institute[MIUN IKS]{%
   Department of Information and Communication Systems,\\
   Mid Sweden University, SE-851\,70 Sundsvall.
 }
-\date{\today}
-
-%\pgfdeclareimage[height=0.65cm]{university-logo}{MU_logotyp_int_CMYK.pdf}
-%\logo{\pgfuseimage{university-logo}}
-
-\AtBeginSection[]{%
-  \begin{frame}<beamer>{Overview}
-    \tableofcontents[currentsection]
-  \end{frame}
-}
-%\AtBeginSubsection[]{%
-%  \begin{frame}<beamer>{Overview}
-%    \tiny
-%    \tableofcontents[currentsubsection,sectionstyle=shaded]
-%  \end{frame}
-%}
-
-% XXX refmon lecture needs review, especially the later part of it
-\begin{document}
 
 \begin{frame}
-  \titlepage{}
+  \maketitle
 \end{frame}
 
-\begin{frame}{Overview}
-  \tableofcontents
-\end{frame}
+\mode*
 
-%\begin{frame}{Litteratur}
-%  \input{literature.tex}
-%\end{frame}
+\begin{abstract}
+  \input{abstract.tex}
+\end{abstract}
 
+
+% XXX refmon lecture needs review, especially the later part of it
 
 % Since this a solution template for a generic talk, very little can
 % be said about how it should be structured. However, the talk length
@@ -84,9 +35,9 @@
 
 \subsection{Enforcing Policies}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
-    \item We now have authentication and authorisation.
+    \item We now have authentication and authorization.
     \item But how do we enforce these access controls?
     \item This is where reference monitors come in.
   \end{itemize}
@@ -94,37 +45,44 @@
 
 \subsection{Definitions}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{definition}[Trusted Computing Base]
-    The totality of protection mechanisms within a system which is responsible 
-    for enforcing a security policy.
-    A TCB consists of one or more components which together enforces the 
-    policy.
-    The ability of the TCB to enforce a policy depends on proper configuration 
-    of its security mechanisms and those mechanisms themselves.
+    \begin{itemize}
+      \item The totality of protection mechanisms within a system which is 
+        responsible for enforcing a security policy.
+      \item Consists of one or more components which together enforces the 
+        policy.
+      \item Its ability to enforce a policy depends on proper configuration of 
+        its security mechanisms and those mechanisms themselves.
+    \end{itemize}
   \end{definition}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{definition}[Reference Monitor]
-    Is an abstract concept refering to an abstract machine which mediates all 
+    Is an abstract concept referring to an abstract machine which mediates all 
     subjects' accesses to objects.
   \end{definition}
+
+  \pause{}
+
   \begin{definition}[Security Kernel]
-    Constitutes hardware, firmware, software of a Trusted Computing Base (TCB) 
-    which implement the reference monitor concept.
-    It must mediate all accesses, be protected from modification and be 
-    verifiable as correct.
+    \begin{itemize}
+      \item Constitutes hardware, firmware, software of a Trusted Computing 
+        Base (TCB) which implement the reference monitor concept.
+      \item It must mediate all accesses, be protected from modification and be 
+        verifiable as correct.
+    \end{itemize}
   \end{definition}
 \end{frame}
 
 % XXX add figure for schematic of reference monitor
-\begin{frame}{\insertsubsectionhead}{Schematic of Reference Monitor}
-\end{frame}
+%\begin{frame}{Schematic of Reference Monitor}
+%\end{frame}
 
 \subsection{Placing the Reference Monitor}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item The RM could be implemented in hardware using the microprocessor.
 
@@ -146,9 +104,9 @@
 
 \subsection{OS Integrity}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
-    \item One of the tasks of the OS is to prevent unauthorised access to 
+    \item One of the tasks of the OS is to prevent unauthorized access to 
       different resources.
 
     \item What if the attacker could modify the OS\@?
@@ -159,7 +117,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item Now we have the problem that a user must be able to use the OS\@.
 
@@ -178,7 +136,7 @@
 
 \subsection{Modes of Operation}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item We must be able to distinguish between what the OS executes for 
       itself and what it executes on behalf of the user.
@@ -193,7 +151,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item One problem we have now is to allow a user to invoke the privileged 
       operations in the operating system.
@@ -210,7 +168,7 @@
 
 \subsection{Mechanisms at the Core}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item Placing mechanisms at the core will allow us higher level of 
       assurance.
@@ -227,14 +185,14 @@
 
 \section{Computer Architechture}
 
-\subsection{Overview}
-
-\begin{frame}{\insertsubsectionhead}
-\end{frame}
+%\subsection{Overview}
+%
+%\begin{frame}
+%\end{frame}
 
 \subsection{CPU}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item Registers, such as
       \begin{itemize}
@@ -249,7 +207,7 @@
 
 \subsection{Memory}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item RAM
     \item ROM
@@ -258,16 +216,25 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item Volatile memory -- fades, not vanishes.
     \item Non-volatile.
   \end{itemize}
 \end{frame}
 
+\begin{frame}
+  \begin{itemize}
+    \item Divide memory into logical units, good for security but more 
+      difficult.
+    \item Divide memory into pages of equal length, efficient but more 
+      difficult for access control.
+  \end{itemize}
+\end{frame}
+
 \subsection{Interrupts}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item Uses the interrupt vector to see at what address to start execution, 
       where the interrupt handler is located.
@@ -280,26 +247,9 @@
 
 \section{Security Mechanisms}
 
-\subsection{Segments and Pages}
-
-\begin{frame}{\insertsubsectionhead}
-  \begin{itemize}
-    \item Divide memory into logical units, good for security but more 
-      difficult.
-    \item Divide memory into pages of equal length, efficient but more 
-      difficult for access control.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{\insertsubsectionhead}
-  \begin{itemize}
-    \item Can use the page faults as a covert channel.
-  \end{itemize}
-\end{frame}
-
 \subsection{Relative Addressing}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item Use a base and a limit register to limit the address space.
   \end{itemize}
@@ -307,7 +257,7 @@
 
 \subsection{Function Codes}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item The Motorola 68000 supported function codes for all addresses.
     \item This system included separation of user data, user code, kernel data, 
@@ -316,12 +266,8 @@
 \end{frame}
 
 
+%%% REFERENCES %%%
 
-%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}{Referenser}
-  \small
+\begin{frame}[allowframebreaks]
   \printbibliography{}
 \end{frame}
-
-\end{document}

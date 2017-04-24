@@ -1,9 +1,10 @@
 .PHONY: all
-all: refmon.pdf
+all: slides.pdf
 
-SRC=		refmon.tex abstract.tex refmon.bib
+SRC+=		preamble.tex refmon.bib
+SRC+=		contents.tex
 
-refmon.pdf: ${SRC}
+slides.pdf: slides.tex ${SRC}
 
 
 INCLUDE_MAKEFILES=../makefiles
