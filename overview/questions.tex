@@ -1,0 +1,57 @@
+\question[3] Describe the relation between authentication and authorization?
+
+\begin{solution}
+  Authentication is about verifying a subject.
+  Authorization is about what this subject is allowed to do according to the 
+  security policy.
+\end{solution}
+
+
+\question[3] What is a reference monitor?
+
+\begin{solution}
+  All access requests pass through the reference monitor.
+  The reference monitor implements the security policy.
+  It requires authenticated subjects to determine if they are authorized to 
+  perform the requested operation on the requested object.
+\end{solution}
+
+
+\question[3] What is discretionary access control?
+
+\begin{solution}
+  The owner (creator) of the object may set the access policy for the data 
+  object.
+  This is what is common in normal file systems.
+\end{solution}
+
+
+\question[3] What is mandatory access control?
+
+\begin{solution}
+  Mandatory access control sets the access policy for created objects based on 
+  fixed rules in the system.
+\end{solution}
+
+
+\question[3] What is attribute-based access control (ABAC)?
+
+\begin{solution}
+  It's an access control model.
+
+  It uses attributes in the security policy: e.g.\ identities, age limits, 
+  times.
+  This requires authenticated attributes.
+
+  This is the most general access control model.
+\end{solution}
+
+
+\question[3] What is identity-based access control?
+
+\begin{solution}
+  This is the most common access control model.
+
+  It's based on the identities of the subjects only.
+  The subject's identities must be authenticated.
+\end{solution}
