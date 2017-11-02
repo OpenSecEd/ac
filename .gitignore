@@ -1,3 +1,8 @@
+lvlltrl/slides.pdf
+overview/slides.pdf
+
+*.unq
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
