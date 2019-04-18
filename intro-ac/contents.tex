@@ -1,0 +1,201 @@
+\mode*
+
+% Since this a solution template for a generic talk, very little can
+% be said about how it should be structured. However, the talk length
+% of between 15min and 45min and the theme suggest that you stick to
+% the following rules:  
+
+% - Exactly two or three sections (other than the summary).
+% - At *most* three subsections per section.
+% - Talk about 30s to 2min per frame. So there should be between about
+%   15 and 30 frames, all told.
+
+% XXX this lecture needs revision, especially the later part of it.
+
+\section{Introduction}
+
+\subsection{Authentication, authorization and access control}
+
+\begin{frame}
+  \begin{itemize}
+    \item A policy specifies who is allowed to do what.
+
+    \item Access control enforces operational security policies.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}
+    \begin{itemize}
+      \item We have an active entity: a \emph{subject} (representing 
+        a \emph{principal}).
+
+      \item The subject tries to access an \emph{object} with some \emph{access 
+          operation}.
+
+      \item To protect this, there is a \emph{reference monitor} granting or 
+        denying this access.
+    \end{itemize}
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}[Authentication]
+    \begin{itemize}
+      \item Principals make statements.
+
+      \item Let \(s\) be a statement.
+
+      \item Authentication answers \enquote{Who said \(s\)?} by stating 
+        a principal.
+    \end{itemize}
+  \end{definition}
+
+  \pause{}
+
+  \begin{definition}[Authorization]
+    \begin{itemize}
+      \item Let \(o\) be an object.
+
+      \item Authorization answers \enquote{Who is trusted to access \(o\)?} by 
+        stating a (list of) principal(s).
+    \end{itemize}
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \begin{idea}[Reference monitor]
+    \begin{itemize}
+      \item The reference monitor requires authentication of principals to be 
+        able to authorize the subject it represents.
+
+      \item By authorization the reference monitor decides whether to grant or 
+        deny a subjects request for access to an object.
+
+      \item For this decision the reference monitor must use the security policy.
+    \end{itemize}
+  \end{idea}
+\end{frame}
+
+
+\subsection{Access operations}
+
+\begin{frame}
+  \begin{definition}
+    \begin{itemize}
+      \item The elementary access modes for operations are to \emph{observe} or 
+        to \emph{alter} a resource.
+
+      \item Different \emph{access operations} requires combinations of access 
+        modes.
+    \end{itemize}
+  \end{definition}
+
+  \pause{}
+
+  \begin{definition}
+    \begin{itemize}
+      \item An \emph{access right} is a right to perform an access operation.
+
+      \item \emph{Privileges} are sets of access rights.
+    \end{itemize}
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \begin{example}[BLP]
+    \begin{itemize}
+      \item The Bell-LaPadula (BLP) model has four access rights:
+        \begin{itemize}
+          \item Execute
+          \item Read
+          \item Append (blind write)
+          \item Write
+        \end{itemize}
+
+      \item These rights requires the two different modes:
+        \begin{description}
+          \item[Execute] requires none.
+          \item[Append] requires alter.
+          \item[Read] requires observe.
+          \item[Write] requires observe and alter.
+        \end{description}
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+% XXX can the examples be adjusted towards Web?
+
+\begin{frame}
+  \begin{example}[Reference monitor]
+    \begin{itemize}
+      \item In a multi-user OS, processes uses the open(2) system call to request 
+        access.
+
+      \item The OS makes sure no conflicting accesses are granted.
+
+      \item Note that some things can be used without a direct request.
+
+      \item E.g.\ the user doesn't need read permission to execute a program.
+
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}[UNIX-like systems]
+    \begin{itemize}
+      \item In UNIX-like systems we have three access operations:
+        \begin{itemize}
+          \item Read
+          \item Write
+          \item Execute
+        \end{itemize}
+
+      \item These are applied to both files and directories, but differently for 
+        each.
+
+      \item You can read from a file, or list the content of a directory.
+
+      \item You can write contents to a file, or create or rename files in 
+        a directory.
+
+      \item You can execute the file, or you can search the directory.
+
+      \item Operations on subdirectories or files are thus handled by access 
+        operations to the parent directory.
+
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+% XXX add example on databases
+\begin{frame}
+  \begin{example}
+    Policies for creating and deleting files are expressed by
+    \begin{itemize}
+      \item access control on the directory in UNIX-like systems, but
+      \item specific create and delete right in Windows.
+    \end{itemize}
+  \end{example}
+
+  \pause{}
+
+  \begin{example}
+    Policies for defining security settings such as access rights are handled 
+    by
+    \begin{itemize}
+      \item access control on the directory in UNIX-like systems, but
+      \item could be handled by right like grant and revoke.
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+  \small
+  \printbibliography{}
+\end{frame}
+
