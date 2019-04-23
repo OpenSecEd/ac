@@ -24,23 +24,12 @@ submodules:
 $ git submodule update --recursive --init
 ```
 Then you can go into the directory of the desired document and run `make`.
-The source files are structured as follows:
-
-- `overview` contains slides to give the students a wide understanding of 
-  access control, its models and related research.
-- `lvlltrl` contains slides (in Swedish) about multilevel and multilateral 
-  security.
-- `refmon` contains slides about reference monitors.
-
 In each directory the files are structured as follows:
 
 - `<name>.tex` contains the main content.
-- `aims.tex` is an itemized list of the intended learning outcomes, as such it 
-  can be included in another document summarizing the list of intended learning 
-  outcomes.
 - `abstract.tex` is an abstract of the lecture, assignment, or similar, and 
-  covers the required reading instructions, thus you can include these in 
-  a study guide containing all reading instructions for the course.
+  covers the required reading instructions, thus you can include these in a 
+  study guide containing all reading instructions for the course.
 - `<name>.bib` contains the bibliography entries, thus this file can be 
   included along with the reading instructions.
 
