@@ -45,8 +45,8 @@ em-pita-detailed.png:
 	wget -O $@ https://www.cs.tau.ac.il/~tromer/radioexp/untethered-pita-closeup---annotated.png
 
 
-.PHONY: clean-depends clean-figures
-clean-depends: clean-figures
+.PHONY: distclean clean-figures
+distclean: clean-figures
 clean-figures:
 	${RM} acoustic-spectrum.jpg acoustic-bits.jpg
 	${RM} acoustic-setup.jpg acoustic-mobile.jpg
