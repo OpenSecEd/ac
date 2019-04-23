@@ -14,99 +14,130 @@
 
 \section{Access control models}
 
-\subsection{Identity-based access control}
+\subsection{Identity-based and role-based}
 
 \begin{frame}
-  \begin{itemize}
-    \item To more easily manage access control for many subjects and objects we 
-      need another approach than above.
+  \begin{definition}[Identity-based access control, IBAC]
+    \begin{itemize}
+      \item Access rights are defined in terms of objects and subject's 
+        identity.
+    \end{itemize}
+  \end{definition}
 
-    \item The solution is to introduce intermediate levels of complexity.
+  \pause
 
-  \end{itemize}
+  \begin{example}
+    \begin{itemize}
+      \item Alice may read document~\(D\).
+      \item Bob may write document~\(D\).
+    \end{itemize}
+  \end{example}
 \end{frame}
 
 \begin{frame}
-  \begin{itemize}
-    \item We might be able to use identity based acces control (IBAC).
-    \item IBAC doesn't scale well.
-
-    \item Thus we add groups to handle multiple principals at the same time, 
-      e.g.\ a computer security class.
-
-    \item This makes things easier.
-
-  \end{itemize}
+  \begin{remark}
+    \begin{itemize}
+      \item Obviously, this doesn't scale well with many users to handle.
+    \end{itemize}
+  \end{remark}
 \end{frame}
 
 \subsection{Role-based access control}
 
 \begin{frame}
-  \begin{itemize}
-    \item Another approach is to use roles.
+  \begin{idea}
+    \begin{itemize}
+      \item Need to manage access control more easily for many subjects and 
+        objects.
 
-    \item A role is a collection of procedures assigned to users.
+      \item The solution is to introduce intermediate levels of complexity.
 
-    \item At a first look it reminds a lot about groups.
+        \pause
 
-    \item However, this is a more high-level way of handling access control.
-
-  \end{itemize}
+      \item We can add groups and
+        \begin{itemize}
+          \item map users to groups,
+          \item map groups to objects.
+        \end{itemize}
+    \end{itemize}
+  \end{idea}
 \end{frame}
 
 \begin{frame}
-  \begin{itemize}
-    \item The procedures have more complex semantics than just read or write.
+  \begin{remark}
+    \begin{itemize}
+      \item Role-based access control (RBAC) generalizes this idea.
+    \end{itemize}
+  \end{remark}
+  
+  \begin{definition}[RBAC]
+    \begin{description}
+      \item[Role assignment]: A subject can perform an access operation only if 
+        the subject has selected or been assigned a role.
 
-    \item They can only be applied to objects of given data types.
+      \item[Role authorization]: A subject's active role must be authorized for 
+        the subject.
 
-    \item E.g.\ transfering funds in a bank.
-
-    \item RBAC is typically found at the application level.
-  \end{itemize}
+      \item[Right authorization]: A subject can perform an access operation 
+        only if it's authorized for the user's active role.
+    \end{description}
+  \end{definition}
 \end{frame}
 
 \begin{frame}
-  \begin{itemize}
-    \item We can further have role hierarchies, i.e.\ relationships between 
-      roles.
-
-    \item E.g.\ we can have a teacher and a teaching assistant role, where the 
-      teacher has all rights of the TA\@.
-
-    \item Separation of duties is an important principle in security, i.e.\ 
-      when the same subject isn't allowed to do two related operations.
-
-    \item There can be static and dynamic policies for separation of duties.
-
-  \end{itemize}
+  \begin{remark}
+    \begin{itemize}
+      \item RBAC allows for more complex semantics than read and write.
+      \item RBAC allows for data types, not only files.
+    \end{itemize}
+  \end{remark}
 \end{frame}
 
 \begin{frame}
-  \begin{description}
-    \item[Flat RBAC] Users are assigned to roles, permissions are assigned to 
-      roles.
-      Hence users get permissions via roles.
+  \begin{block}{Extensions}
+    \begin{description}
+      \item[Flat RBAC] Users are assigned to roles, permissions are assigned to 
+        roles.
 
-    \item[Hierarchical RBAC]
-      Adds support for role hierarchies.
+      \item[Hierarchical RBAC]
+        Adds support for role hierarchies: Teacher, Teacher's Assistant (TA).
 
-    \item[Constrained RBAC]
-      Adds separation of duties.
-  \end{description}
+      \item[Constrained RBAC]
+        Adds separation of duties: someone may not switch from Student to TA in 
+        the same course.
+    \end{description}
+  \end{block}
 \end{frame}
 
 \subsection{Attribute-based access control}
 
 \begin{frame}
-  \begin{definition}
+  \begin{remark}
+    \begin{itemize}
+      \item Attribute-based access control (ABAC) generalizes RBAC.
+    \end{itemize}
+  \end{remark}
+
+  \begin{idea}
+    \begin{itemize}
+      \item Has a recommended architecture.
+      \item Attributes can be about anything.
+      \item Policies are boolean formulas of attributes.
+    \end{itemize}
+  \end{idea}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}[Architecture]
     \begin{description}
-      \item[Policy enforcement point] Inspects request and generates 
+      \item[Policy enforcement point, PEP] Inspects request and generates 
         authorization request for PDP.
+
       \item[Policy decision point, PDP] Evaluates requests against policies.
         Returns permit or deny.
-      \item[Policy information point] Can be used by PDP to access attribute 
-        databases.
+
+      \item[Policy information point, PIP] Can be used by PDP to access 
+        attribute databases.
     \end{description}
   \end{definition}
 \end{frame}
@@ -114,32 +145,100 @@
 \begin{frame}
   \begin{example}[Attributes]
     \begin{itemize}
-      \item Subject attributes, e.g.\ age, clearance, department, role, \dots
-      \item Action attributes, e.g.\ read, delete, write, \dots
-      \item Object attributes, e.g.\ type, owner, classification, location, 
+      \item Subject attributes: e.g.\ age, clearance, department, role, \dots
+      \item Action attributes: e.g.\ read, delete, write, \dots
+      \item Object attributes: e.g.\ type, owner, classification, location, 
         \dots
-      \item Contextual attributes, e.g.\ time, location, \dots
+      \item Contextual attributes: e.g.\ time, location, \dots
     \end{itemize}
   \end{example}
 \end{frame}
 
-\subsection{Protection Rings}
+\begin{frame}
+  \begin{definition}[ABAC policy]
+    Set of rules of the form:
+    \begin{itemize}
+      \item IF \(b(\text{attributes})\) THEN allow/deny action
+    \end{itemize}
+  \end{definition}
+\end{frame}
 
 \begin{frame}
-  \begin{itemize}
-    \item Multics introduced protection rings.
+  \begin{example}[ABAC policy]
+    \begin{itemize}
+      \item User~\(U\) can view document~\(D\) if \(D\) is in the same 
+        department as \(U\).
+      \item \(U\) can edit \(D\) if \(D\) is in draft mode.
+      \item Deny access to \(D\) from foreign connections.
+    \end{itemize}
+  \end{example}
+\end{frame}
 
-    \item Low-level version of the high-level BLP.
+\subsection{Discretionary and mandatory models}
 
-    \item These are mainly implemented in hardware and used to protect 
-      integrity.
+\begin{frame}
+  \begin{question}
+    \begin{itemize}
+      \item Who should set the access policy?
+    \end{itemize}
+  \end{question}
+\end{frame}
 
-    \item Access control is based on which rings the subject and object are in.
+\begin{frame}
+  \begin{definition}[Discretionary Access Control, DAC]
+    \begin{itemize}
+      \item The owner of an object sets privileges for other subjects.
+    \end{itemize}
+  \end{definition}
 
-    \item E.g.\ 0 contains kernel, 1 contains OS functionality, 2 contains 
-      utilities, and 3 is for user processes.
+  \pause
 
-  \end{itemize}
+  \begin{example}[File system]
+    \begin{itemize}
+      \item Alice creates a file~\(f\).
+      \item She sets that Bob can read from, but not write to, \(f\).
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}[Mandatory Access Control, MAC]
+    \begin{itemize}
+      \item The policy is enforced by the system.
+    \end{itemize}
+  \end{definition}
+
+  \pause
+
+  \begin{example}[Military system]
+    \begin{itemize}
+      \item General Alice has access to files~\(f_0, f_1, \dotsc, f_n\).
+      \item She writes the file~\(f\).
+      \item Only those who can access \(f_0, \dotsc, f_n\) can access \(f\).
+      \item Bob who has access to \(f_1, \dotsc, f_{n-1}\) is denied.
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{remark}
+    \begin{itemize}
+      \item Since Alice has read \(f_0, \dotsc, f_n\), then \(f = F(f_0, 
+          \dotsc, f_n)\).
+      \item \Ie, there might be some trace of \(f_n\) in \(f\) --- which Bob is 
+        not allowed to access.
+    \end{itemize}
+  \end{remark}
+\end{frame}
+
+\begin{frame}
+  \begin{exercise}
+    \begin{itemize}
+      \item What kind of model do you prefer on a social network?
+      \item Discretionary or mandatory?
+      \item What would these two models look like in that setting?
+    \end{itemize}
+  \end{exercise}
 \end{frame}
 
 
@@ -313,6 +412,6 @@
 
 \begin{frame}
   \small
-  \printbibliography{}
+  \printbibliography
 \end{frame}
 

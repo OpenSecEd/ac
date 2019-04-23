@@ -1,2 +1,3 @@
-[Access control] introduces the area of access control. It covers access 
-control models (e.g. ABAC) and policies (e.g. Bell-LaPadula and Biba).
+[Access Control Models] describes a few select access-control models: 
+identity-based (IBAC), role-based (RBAC) and attribute-based (ABAC). It also 
+considers discretionary (DAC) and mandatory access control (MAC).
