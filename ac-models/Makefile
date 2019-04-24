@@ -1,7 +1,7 @@
 .PHONY: all
 all: slides.pdf
 
-SRC+=		slides.tex abstract.tex overview.bib
+SRC+=		slides.tex abstract.tex ac-models.bib
 SRC+=		contents.tex
 
 slides.pdf: ${SRC}
