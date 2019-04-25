@@ -3,6 +3,7 @@ all: slides.pdf
 
 SRC+=		preamble.tex lvlltrl.bib
 SRC+=		contents.tex
+
 FIGURES+=	lattice.png
 
 slides.pdf: slides.tex ${SRC} ${FIGURES}
