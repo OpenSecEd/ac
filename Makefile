@@ -1,9 +1,9 @@
 SUBDIR+= 	intro-ac
 SUBDIR+= 	ac-models
-
 SUBDIR+= 	multi-level
-SUBDIR+= 	covert-channels
 SUBDIR+= 	multi-lateral
+
+SUBDIR+= 	covert-channels
 
 SUBDIR+= 	ac-structures
 SUBDIR+= 	./refmon
