@@ -13,36 +13,6 @@
 
 \section{Flernivåsäkerhet}
 
-\subsection{Bell--LaPadula säkerhetspolicymodell}
-\begin{frame}{\insertsubsectionhead}
-  \begin{description}
-    \item[Säkerhetspolicymodell] Uttrycker koncist skyddegenskaperna ett system 
-      måste ha.
-      Ligger till grund för formell analys.
-    \item[Säkerhetsmål] Mer detaljerad beskrivning av given implementation av 
-      mekanismer, hur dessa relaterar till mål (härledda från policymodellen).
-      Grund för testning och utvärdering.
-    \item[Skyddsprofil] En implementationsoberoende version av säkerhetsmålet, 
-      används för att jämföra olika system.
-    \item[Säkerhetspolicy] Ett dokument som tydligt uttrycker målen våra 
-      säkerhetsmekanismer ska uppnå.
-      Används ofta som synonym till både säkerhetspolicymodell och 
-      säkerhetsmål.
-  \end{description}
-\end{frame}
-\begin{frame}{\insertsubsectionhead}
-  \begin{itemize}
-    \item Ett säkert system bör göra en eller två saker väl -- det måste vara 
-      enkelt.
-    \item Dessa saker ska säkras av lika enkla mekanismer -- som då går att 
-      analysera.
-    \item Dessa mekanismer utgör vad som kallas \emph{trusted computing base 
-      (TCB)}.
-    \item Bell--LaPadula är exempel på en sådan säkerhetspolicymodell.
-    \item Utvecklades av Bell och LaPadula under 1970-talet.
-    \item Syftet är att skydda fleranvändarsystem.
-  \end{itemize}
-\end{frame}
 \begin{frame}{\insertsubsectionhead}
   \begin{itemize}
     \item Andra världskriget och Kalla kriget ledde NATO-länderna att utveckla 
@@ -62,14 +32,6 @@
       upp till den nivå denne är behörig.
     \item Det krävs speciella personer för att avklassificera dokument.
     \item Till de olika nivåerna hör olika skyddsnivåer.
-  \end{itemize}
-\end{frame}
-\begin{frame}{\insertsubsectionhead}
-  \begin{itemize}
-    \item Vi kan även lägga till speciella kodord till klassificeringarna.
-    \item En klassificering med ett eller flera kodord utgör en 
-      \emph{säkerhetskategori (security category eller compartment)}.
-    \item Detta ger multilateral säkerhet.
   \end{itemize}
 \end{frame}
 \begin{frame}{\insertsubsectionhead}
@@ -128,64 +90,13 @@
   \end{itemize}
 \end{frame}
 
-\subsection{Alternativa modeller}
-\begin{frame}{\insertsubsectionhead}
-  \begin{itemize}
-    \item \emph{Noninterference} kom 1982.
-    \item Saker som händer på hög säkerhetsnivå har ingen effekt på vad låg 
-      säkerhetsnivå kan se.
-    \item \emph{Nondeducability} kom 1986.
-    \item Förenkling av tidigare: bevisa att låg nivå inte kan härleda med 
-      \SI{100}{\%} säkerhet vad som händer på hög.
-    \item Även om det går att se är det oförståeligt.
-    \item Ett exempel på tillämpningsområde är ett nätverk med datorer med både 
-      hög och låg säkerhetsklassning.
-  \end{itemize}
-\end{frame}
-\begin{frame}{\insertsubsectionhead}
-  \begin{itemize}
-    \item \emph{Type enforcement (TE)} tilldelar \emph{domäner} för subjekt och 
-      \emph{typer} för objekt.
-    \item Därefter skapas en matris som specificerar tillåtna domän--domän- 
-      respektive domän--typ-kombinationer.
-    \item Utökades till \emph{Domain and Type Enforcement (DTE)}.
-    \item Ger ett komplext språk att specificera policyer.
-  \end{itemize}
-\end{frame}
-\begin{frame}{\insertsubsectionhead}
-  \begin{itemize}
-    \item Rollbaserad åtkomstkontroll (\emph{role-based access control, RBAC}) 
-      har sitt ursprung i bankvärlden.
-    \item Baseras på användarens funktion som den utför snarare än en given 
-      användare.
-    \item Det är skillnad på ''Daniel läraren'' och ''Daniel studenten''.
-    \item Men inte skillnad på ''Daniel läraren'' och ''Lennart läraren''.
-    \item Mina rättigheter kan således begränsas beroende på vad jag gör: inte 
-      installera program när jag läser e-post -- och alltså skydda mot 
-      sabotageprogram.
-    \item Kan då hantera både konfidentialitet och integritet.
-    \item Detta implementeras i Linux genom TE och DTE.
-  \end{itemize}
-\end{frame}
-\begin{frame}{\insertsubsectionhead}
-  \begin{itemize}
-    \item Virtualisering är ett sätt att implementera olika nivåer och separera 
-      dem.
-    \item NSA implementerade NetTop: en modifierad version av VMware.
-    \item Linux som bassystem med Windows som virtuella maskiner.
-    \item Anställda fick datorer som såg ut som Windows.
-    \item Säkerhetsfolket fick hög säkerhet med separerade säkerhetsnivåer.
-    \item Finns dock problem:
-      Hur vet du vilken virtuell maskin som mikrofonen är ansluten till, hemlig 
-      nivå eller ej sekretessbelagd?
-  \end{itemize}
-\end{frame}
+\subsection{Covert channels}
 
-\subsection{Hemliga kanaler}
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   Vad händer om jag skriver till en fil som redan finns på högre 
   konfidentialitetsnivå?
 \end{frame}
+
 \begin{frame}{\insertsubsectionhead}{NRL-pump}
   \begin{itemize}
     \item Används för att begränsa bandbredden för hemliga kanaler.
