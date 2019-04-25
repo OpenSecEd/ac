@@ -17,29 +17,6 @@
 \subsection{Authentication, authorization and access control}
 
 \begin{frame}
-  \begin{itemize}
-    \item A policy specifies who is allowed to do what.
-
-    \item Access control enforces operational security policies.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \begin{definition}
-    \begin{itemize}
-      \item We have an active entity: a \emph{subject} (representing 
-        a \emph{principal}).
-
-      \item The subject tries to access an \emph{object} with some \emph{access 
-          operation}.
-
-      \item To protect this, there is a \emph{reference monitor} granting or 
-        denying this access.
-    \end{itemize}
-  \end{definition}
-\end{frame}
-
-\begin{frame}
   \begin{definition}[Authentication]
     \begin{itemize}
       \item Principals make statements.
@@ -59,6 +36,29 @@
 
       \item Authorization answers \enquote{Who is trusted to access \(o\)?} by 
         stating a (list of) principal(s).
+    \end{itemize}
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \begin{itemize}
+    \item A policy specifies who is allowed to do what.
+
+    \item Access control enforces operational security policies.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}
+    \begin{itemize}
+      \item We have an active entity: a \emph{subject} (representing 
+        a \emph{principal}).
+
+      \item The subject tries to access an \emph{object} with some \emph{access 
+          operation}.
+
+      \item To protect this, there is a \emph{reference monitor} granting or 
+        denying this access.
     \end{itemize}
   \end{definition}
 \end{frame}
