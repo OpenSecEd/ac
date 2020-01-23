@@ -1,0 +1,417 @@
+\mode*
+
+% Since this a solution template for a generic talk, very little can
+% be said about how it should be structured. However, the talk length
+% of between 15min and 45min and the theme suggest that you stick to
+% the following rules:  
+
+% - Exactly two or three sections (other than the summary).
+% - At *most* three subsections per section.
+% - Talk about 30s to 2min per frame. So there should be between about
+%   15 and 30 frames, all told.
+
+% XXX this lecture needs revision, especially the later part of it.
+
+\section{Access control models}
+
+\subsection{Identity-based and role-based}
+
+\begin{frame}
+  \begin{definition}[Identity-based access control, IBAC]
+    \begin{itemize}
+      \item Access rights are defined in terms of objects and subject's 
+        identity.
+    \end{itemize}
+  \end{definition}
+
+  \pause
+
+  \begin{example}
+    \begin{itemize}
+      \item Alice may read document~\(D\).
+      \item Bob may write document~\(D\).
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{remark}
+    \begin{itemize}
+      \item Obviously, this doesn't scale well with many users to handle.
+    \end{itemize}
+  \end{remark}
+\end{frame}
+
+\subsection{Role-based access control}
+
+\begin{frame}
+  \begin{idea}
+    \begin{itemize}
+      \item Need to manage access control more easily for many subjects and 
+        objects.
+
+      \item The solution is to introduce intermediate levels of complexity.
+
+        \pause
+
+      \item We can add groups and
+        \begin{itemize}
+          \item map users to groups,
+          \item map groups to objects.
+        \end{itemize}
+    \end{itemize}
+  \end{idea}
+\end{frame}
+
+\begin{frame}
+  \begin{remark}
+    \begin{itemize}
+      \item Role-based access control (RBAC) generalizes this idea.
+    \end{itemize}
+  \end{remark}
+  
+  \begin{definition}[RBAC]
+    \begin{description}
+      \item[Role assignment]: A subject can perform an access operation only if 
+        the subject has selected or been assigned a role.
+
+      \item[Role authorization]: A subject's active role must be authorized for 
+        the subject.
+
+      \item[Right authorization]: A subject can perform an access operation 
+        only if it's authorized for the user's active role.
+    \end{description}
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \begin{remark}
+    \begin{itemize}
+      \item RBAC allows for more complex semantics than read and write.
+      \item RBAC allows for data types, not only files.
+    \end{itemize}
+  \end{remark}
+\end{frame}
+
+\begin{frame}
+  \begin{block}{Extensions}
+    \begin{description}
+      \item[Flat RBAC] Users are assigned to roles, permissions are assigned to 
+        roles.
+
+      \item[Hierarchical RBAC]
+        Adds support for role hierarchies: Teacher, Teacher's Assistant (TA).
+
+      \item[Constrained RBAC]
+        Adds separation of duties: someone may not switch from Student to TA in 
+        the same course.
+    \end{description}
+  \end{block}
+\end{frame}
+
+\subsection{Attribute-based access control}
+
+\begin{frame}
+  \begin{remark}
+    \begin{itemize}
+      \item Attribute-based access control (ABAC) generalizes RBAC.
+    \end{itemize}
+  \end{remark}
+
+  \begin{idea}
+    \begin{itemize}
+      \item Has a recommended architecture.
+      \item Attributes can be about anything.
+      \item Policies are boolean formulas of attributes.
+    \end{itemize}
+  \end{idea}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}[Architecture]
+    \begin{description}
+      \item[Policy enforcement point, PEP] Inspects request and generates 
+        authorization request for PDP.
+
+      \item[Policy decision point, PDP] Evaluates requests against policies.
+        Returns permit or deny.
+
+      \item[Policy information point, PIP] Can be used by PDP to access 
+        attribute databases.
+    \end{description}
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \begin{example}[Attributes]
+    \begin{itemize}
+      \item Subject attributes: e.g.\ age, clearance, department, role, \dots
+      \item Action attributes: e.g.\ read, delete, write, \dots
+      \item Object attributes: e.g.\ type, owner, classification, location, 
+        \dots
+      \item Contextual attributes: e.g.\ time, location, \dots
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}[ABAC policy]
+    Set of rules of the form:
+    \begin{itemize}
+      \item IF \(b(\text{attributes})\) THEN allow/deny action
+    \end{itemize}
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \begin{example}[ABAC policy]
+    \begin{itemize}
+      \item User~\(U\) can view document~\(D\) if \(D\) is in the same 
+        department as \(U\).
+      \item \(U\) can edit \(D\) if \(D\) is in draft mode.
+      \item Deny access to \(D\) from foreign connections.
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\subsection{Discretionary and mandatory models}
+
+\begin{frame}
+  \begin{question}
+    \begin{itemize}
+      \item Who should set the access policy?
+    \end{itemize}
+  \end{question}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}[Discretionary Access Control, DAC]
+    \begin{itemize}
+      \item The owner of an object sets privileges for other subjects.
+    \end{itemize}
+  \end{definition}
+
+  \pause
+
+  \begin{example}[File system]
+    \begin{itemize}
+      \item Alice creates a file~\(f\).
+      \item She sets that Bob can read from, but not write to, \(f\).
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}[Mandatory Access Control, MAC]
+    \begin{itemize}
+      \item The policy is enforced by the system.
+    \end{itemize}
+  \end{definition}
+
+  \pause
+
+  \begin{example}[Military system]
+    \begin{itemize}
+      \item General Alice has access to files~\(f_0, f_1, \dotsc, f_n\).
+      \item She writes the file~\(f\).
+      \item Only those who can access \(f_0, \dotsc, f_n\) can access \(f\).
+      \item Bob who has access to \(f_1, \dotsc, f_{n-1}\) is denied.
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{remark}
+    \begin{itemize}
+      \item Since Alice has read \(f_0, \dotsc, f_n\), then \(f = F(f_0, 
+          \dotsc, f_n)\).
+      \item \Ie, there might be some trace of \(f_n\) in \(f\) --- which Bob is 
+        not allowed to access.
+    \end{itemize}
+  \end{remark}
+\end{frame}
+
+\begin{frame}
+  \begin{exercise}
+    \begin{itemize}
+      \item What kind of model do you prefer on a social network?
+      \item Discretionary or mandatory?
+      \item What would these two models look like in that setting?
+    \end{itemize}
+  \end{exercise}
+\end{frame}
+
+
+%\section{Authorisation}
+%
+%\subsection{Principle of least privilege}
+%
+%\begin{frame}
+%  \begin{itemize}
+%    \item The main point with the ``principle of least privilege'' is to deny 
+%      access to things you normally don't need.
+%
+%    \item Why should your webserver have read-permission to the system password 
+%      database?
+%
+%    \item It will never attempt to read it anyway, so why bother?
+%
+%    \item Because you never know what might happen to your webserver 
+%      communicating with the outside world -- it can be forced to anything, 
+%      then the operating system must prevent it.
+%
+%  \end{itemize}
+%\end{frame}
+%
+%\begin{frame}
+%  \begin{itemize}
+%    \item Why should we have ``drop table''-permissions for reading the 
+%      password database?
+%
+%    \item A slip-up in any function accessing the database can then allow the 
+%      attacker to do anything.
+%
+%    \item Otherwise, the attacker must find a vulnerabiblity to exploit in the 
+%      only functions with write permissions to that particular table.
+%
+%  \end{itemize}
+%\end{frame}
+%
+%\begin{frame}{Keys to the kingdom again}
+%  \begin{itemize}
+%    \item But what happens when all parts run as the same no-privilege user?
+%
+%    \item Then they have rights to each other, so we're back at it.
+%
+%    \item Separate different applications with different system users.
+%
+%    \item This problem cannot arise inside the database.
+%
+%    \item But if the webserver and database server runs as the same user, the 
+%      webserver can just kill the database server and read the files directly 
+%      from disc instead of using the API.
+%
+%  \end{itemize}
+%\end{frame}
+%
+%\subsection{Access Control Lists (ACL)}
+%
+%\begin{frame}
+%  \begin{itemize}
+%    \item An ACL specifies which users should have which permissions.
+%
+%    \item It usually has a list of permissions; e.g.\ read, write.
+%      Sometimes also append, insert etc.
+%
+%    \item Each user or role is entered with a certain set of permissions.
+%
+%    \item There are ACLs in both operating system (OS), for running processes 
+%      and file systems, but also inside databases.
+%
+%  \end{itemize}
+%\end{frame}
+%
+%\begin{frame}
+%  \begin{itemize}
+%    \item Apply the principle of least privilege.
+%
+%    \item This is usually not the case, most files are readable by everyone 
+%      when created.
+%
+%    \item The same applies to databases, unsecure by default.
+%
+%  \end{itemize}
+%\end{frame}
+%
+%\subsection{Centralised Authorisation Routines}
+%
+%\begin{frame}
+%  \begin{itemize}
+%    \item Use centralised functions in your application to manage 
+%      authorisation, i.e.\ to enforce ACLs.
+%
+%    \item Centralisation in the application means less code, less code means 
+%      less potential for bugs.
+%
+%    \item Don't copy-paste authorisation code to all functions, use one 
+%      centralised function which handles the ACL.
+%
+%  \end{itemize}
+%\end{frame}
+%
+%\begin{frame}
+%  \begin{itemize}
+%    \item The ACLs can be represented as an authorisation matrix.
+%
+%    \item I.e.\ a huge table listing all users, actions and resources along 
+%      with whether the user is allowed.
+%
+%    \item This can be implemented in a database.
+%
+%    \item All parts of the webapplication must conform to this, use the 
+%      centralised functions to enforce it.
+%
+%  \end{itemize}
+%\end{frame}
+%
+%\begin{frame}
+%  \begin{itemize}
+%    \item Make sure to check both actions and resources.
+%
+%    \item Is this user allowed to edit personal settings?
+%      Yes, he is, he's logged in.
+%
+%    \item Whose personal settings did the logged-in user edit?
+%
+%  \end{itemize}
+%\end{frame}
+%
+%\begin{frame}
+%  \begin{itemize}
+%    \item When implementing the authorisation checks, watch out for ``positive 
+%      authorisation''!
+%
+%    \item I.e.\ don't assume things will succeed, always write for default 
+%      deny.
+%
+%    \item If your code is aborted, in any line, it should fail the 
+%      authorisation.
+%
+%  \end{itemize}
+%\end{frame}
+%
+%\subsection{Static Content}
+%
+%\begin{frame}
+%  \begin{itemize}
+%    \item Remember to protect files in the webserver's file system, e.g.\ PDFs 
+%      and images if they are not publicly available.
+%
+%    \item Either set some ACLs for them to disallow fetching them using direct 
+%      URLs.
+%
+%    \item Another possibility is to generate the content on the fly.
+%
+%  \end{itemize}
+%\end{frame}
+%
+%\subsection{Don't trust the user}
+%
+%\begin{frame}
+%  \begin{itemize}
+%    \item Don't trust anything from the client-side.
+%
+%    \item Store all critical data on server-side, all access control related 
+%      things should be on the server -- and check every time!
+%
+%  \end{itemize}
+%\end{frame}
+%
+
+%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+  \small
+  \printbibliography
+\end{frame}
+

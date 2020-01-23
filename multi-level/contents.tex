@@ -1,0 +1,203 @@
+\mode*
+
+% Since this a solution template for a generic talk, very little can
+% be said about how it should be structured. However, the talk length
+% of between 15min and 45min and the theme suggest that you stick to
+% the following rules:  
+
+% - Exactly two or three sections (other than the summary).
+% - At *most* three subsections per section.
+% - Talk about 30s to 2min per frame. So there should be between about
+%   15 and 30 frames, all told.
+
+
+\section{Multi-Level Security}
+
+\subsection{The Bell-LaPadula model}
+
+\begin{frame}
+  \begin{itemize}
+    \item WWII and the Cold War led the NATO-countries to develop joint 
+      classification model.
+
+    \item The classifications are an ordered set of labels:
+
+      \begin{itemize}
+        \item Unclassified
+        \item Confidential
+        \item Secret
+        \item Top Secret
+      \end{itemize}
+
+      % XXX add reference for labels of classification
+    \item EU also has Restricted.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}
+    \begin{itemize}
+      \item An individual has \emph{clearance} for a security level.
+    \end{itemize}
+  \end{definition}
+
+  \pause
+
+  \begin{block}{Summary}
+    \begin{itemize}
+      \item An individual can read information classified to lower levels.
+      \item Requires special people who can declassify.
+      \item Different protection for each level.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}[Bell--LaPadula, BLP]
+    \begin{description}
+      \item[NRU] (No Read Up, simple security property)
+        No process may read data from a higher level.
+      \item[NWD] (No Write Down, *-property)
+        No process may write data to a lower level.
+    \end{description}
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \begin{remark}
+    \begin{itemize}
+      \item Bell and LaPadula's security policy model published in 1973.
+      \item Systems implementing it are \emph{multilevel secure (MLS)}.
+      \item This is \emph{mandatory access control}.
+    \end{itemize}
+  \end{remark}
+\end{frame}
+
+%\begin{frame}{\insertsubsectionhead}
+%  \begin{block}{Utökning av BLP}
+%    Inför \emph{tranquility property}, finns två varianter:
+%    \begin{description}
+%      \item[Stark] Säkerhetsklassificeringar förändras aldrig under systemets 
+%        gång.
+%      \item[Svag] Säkerhetsklassificeringar förändras aldrig så att 
+%        säkerhetspolicyn bryts.
+%    \end{description}
+%  \end{block}
+%  \begin{itemize}
+%    \item Anledningen till den svaga är \emph{principle of least privilege}.
+%    \item Börja på lägsta säkerhetsnivån och öka allteftersom data med högre 
+%      nivå används -- \emph{high watermark principle}.
+%    \item Vad händer då här en ny fil skapas senare?
+%    \item Det kommer att behövas en \emph{trusted subject} för av 
+%      avklassificera.
+%  \end{itemize}
+%\end{frame}
+
+\subsection{Covert channels}
+
+\begin{frame}
+  \begin{question}
+    \begin{itemize}
+      \item What if we write to an existing file on a higher level?
+      \item What should happen?
+    \end{itemize}
+  \end{question}
+\end{frame}
+
+\begin{frame}
+  \begin{example}[Military logistics]
+    \begin{itemize}
+      \item A military storage containing Top Secret equipment.
+      \item A logistician has only Secret clearance.
+      \item What should this logistician see?
+    \end{itemize}
+  \end{example}
+
+  \pause
+
+  \begin{remark}[Alternatives]
+    \begin{enumerate}
+      \item \enquote{This storage is full of Top Secret stuff.}
+
+        \pause
+
+      \item \enquote{There is nothing here.}
+
+        \pause
+
+      \item \enquote{This storage is full of uninteresting rubber boots.}
+    \end{enumerate}
+  \end{remark}
+\end{frame}
+
+\begin{frame}
+  \begin{remark}[The covert channel problem]
+    \begin{itemize}
+      \item Processes at different levels share resourses.
+    \end{itemize}
+  \end{remark}
+
+  \pause
+
+  \begin{solution}
+    \begin{itemize}
+      \item Try to reduce the bandwidth.
+    \end{itemize}
+  \end{solution}
+\end{frame}
+
+\begin{frame}
+  \begin{example}[The NRL pump]
+    \begin{itemize}
+      \item Buffers, randomizes timing of return of acknowledgements.
+      \item This limits the bandwidth.
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\subsection{The Biba model}
+
+\begin{frame}
+  \begin{idea}[The Biba model]
+    \begin{itemize}
+      \item Focus on integrity instead of confidentiality.
+      \item Essentially BLP upside-down.
+      \item Analogy: Using data with larger error, yields larger error in 
+        result.
+    \end{itemize}
+  \end{idea}
+\end{frame}
+
+\begin{frame}
+  \begin{block}{The Biba model}
+    \begin{itemize}
+      \item No Write Up: Can read from higher levels, but not write.
+      \item No Read Down: Can write to lower levels, but not read.
+    \end{itemize}
+  \end{block}
+
+  \pause
+
+  \begin{example}[LOMAC, Linux]
+    \begin{itemize}
+      \item A process was downgraded from high to low when receiving data from 
+        network.
+    \end{itemize}
+  \end{example}
+
+  \pause
+
+  \begin{example}[Windows Vista]
+    \begin{itemize}
+      \item Windows Vista ran Internet Explorer on low.
+      \item Downloading malware cannot compromise the system.
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+
+%%% REFERENCES %%%
+
+\begin{frame}[allowframebreaks]
+  \printbibliography{}
+\end{frame}
